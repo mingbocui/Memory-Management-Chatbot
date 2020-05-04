@@ -85,12 +85,12 @@ ChatBot& ChatBot::operator=(const ChatBot& other){
 ChatBot& ChatBot::operator=(ChatBot&& other){
     std::cout << "ChatBot move assignment!" << "\n";
     if(&other != this){
-        
+        // transfering 
         _image = other._image;
         _currentNode = other._currentNode;
         _rootNode = other._rootNode;
         _chatLogic = other._chatLogic;
-
+        // voiding
         other._image = NULL;
         other._currentNode = nullptr;
         other._rootNode = nullptr;
@@ -98,6 +98,7 @@ ChatBot& ChatBot::operator=(ChatBot&& other){
 
     }
     return *this;
+}
 ////
 //// EOF STUDENT CODE
 
