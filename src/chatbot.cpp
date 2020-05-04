@@ -46,30 +46,36 @@ ChatBot::~ChatBot()
 ////
 ChatBot::ChatBot(const ChatBot& other){
     std::cout << "ChatBot copy constructor!" << "\n";
-    _image = new wxBitmap();
+    // _image = new wxBitmap();
     *_image = *other._image;
     // _currentNode = other._currentNode;
     // rootNode is also smart pointrt
     _rootNode = other._rootNode;
 
     // chatLogic is std::unique_ptr
+    // but why not dereference like _image to copy the data?
     _chatLogic = other._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
+    // _chatLogic->SetChatbotHandle(this);
 }
 
 ChatBot::ChatBot(ChatBot&& other){
     std::cout << "ChatBot move constructor!" << "\n";
     _image = other._image;
-    _currentNode = other._currentNode;
+    other._image = NULL;
+    // _currentNode = other._currentNode;
     _rootNode = other._rootNode;
+    other._rootNode = nullptr;
     _chatLogic = other._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    //unique_ptr does not need free this ?? why should we null this smart ptr explictly?
+    other._chatLogic = nullptr;
 }
 
 ChatBot& ChatBot::operator=(const ChatBot& other){
     std::cout << "ChatBot copy assignment!" << "\n";
     if(&other != this){
         _image = other._image;
-        _currentNode = other._currentNode;
+        // _currentNode = other._currentNode;
         _rootNode = other._rootNode;
         _chatLogic = other._chatLogic;
     }
@@ -79,13 +85,15 @@ ChatBot& ChatBot::operator=(const ChatBot& other){
 ChatBot& ChatBot::operator=(ChatBot&& other){
     std::cout << "ChatBot move assignment!" << "\n";
     if(&other != this){
+        
         _image = other._image;
-        other._image = nullptr;
         _currentNode = other._currentNode;
-        other._currentNode = nullptr;
         _rootNode = other._rootNode;
-        other._rootNode = nullptr;
         _chatLogic = other._chatLogic;
+
+        other._image = NULL;
+        other._currentNode = nullptr;
+        other._rootNode = nullptr;
         other._chatLogic = nullptr;
 
     }
