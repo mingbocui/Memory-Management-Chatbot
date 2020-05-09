@@ -25,7 +25,7 @@ private:
     // std::unique_ptr<std::vector<GraphEdge *>> _nodes = std::make_unique<std::vector<GraphEdge *>>();
 
     std::vector<std:unique_ptr<GraphNode>> _nodes;
-    std::vector<std:unique_ptr<GraphEdge>> _edges;
+    // std::vector<std:unique_ptr<GraphEdge>> _edges;
 
     ////
     //// EOF STUDENT CODE
