@@ -44,10 +44,10 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 //// copy constructor (shallow copy)
-ChatBot::ChatBot(const ChatBot& other){
+ChatBot::ChatBot(const ChatBot &other){
     std::cout << "ChatBot copy constructor!" << "\n";
 
-    *_image = *other._image;
+    _image = other._image;
 
     // rootNode is also smart pointrt
     _rootNode = other._rootNode;
@@ -57,7 +57,7 @@ ChatBot::ChatBot(const ChatBot& other){
 
 }
 
-ChatBot::ChatBot(ChatBot&& other){
+ChatBot::ChatBot(ChatBot &&other){
     std::cout << "ChatBot move constructor!" << "\n";
 
     _image = other._image;
@@ -72,31 +72,35 @@ ChatBot::ChatBot(ChatBot&& other){
     other._chatLogic = nullptr;
 }
 
-ChatBot& ChatBot::operator=(const ChatBot& other){
+ChatBot& ChatBot::operator=(const ChatBot &other){
     std::cout << "ChatBot copy assignment!" << "\n";
-    if(&other != this){
-        _image = other._image;
-        // _currentNode = other._currentNode;
-        _rootNode = other._rootNode;
-        _chatLogic = other._chatLogic;
+    if(&other == this)
+    {
+      return *this;
     }
-    return *this;
+  _image = other._image;
+  _rootNode = other._rootNode;
+  _chatLogic = other._chatLogic;
+  return *this;
 }
 
 ChatBot& ChatBot::operator=(ChatBot&& other){
     std::cout << "ChatBot move assignment!" << "\n";
-    if(&other != this){
-        // transfering 
-        _image = other._image;
-        _rootNode = other._rootNode;
-        _chatLogic = other._chatLogic;
-        // voiding
-        other._image = NULL;
-        other._rootNode = nullptr;
-        other._chatLogic = nullptr;
-
+    if(&other == this){
+          return *this;
     }
-    return *this;
+  if (!_image) delete _image;
+  // transfering 
+  _image = other._image;
+  _rootNode = other._rootNode;
+  _chatLogic = other._chatLogic;
+  
+  _chatLogic->SetChatbotHandle(this);
+  // voiding
+  other._image = NULL; // nullptr
+  other._rootNode = nullptr;
+  other._chatLogic = nullptr;
+
 }
 ////
 //// EOF STUDENT CODE
